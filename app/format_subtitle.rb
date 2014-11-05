@@ -10,13 +10,14 @@ class FormatSubtitle
 
     def generate_subtitle
       # item = ARGV[0]
-      item = "s01e01.txt"
+      item = ARGV[0] || "s01e11.txt"
+      ext_enc = ARGV[1] || "utf-8"
       body_start = false
       old_file = "#{ORIGINAL_PATH}#{item}"
       new_file = "#{SUBTITLE_PATH}#{item}"
 
       f_subtitle = File.new(new_file,"w")
-      File.open(old_file, "r:gb2312:utf-8") do |f|
+      File.open(old_file, "r:#{ext_enc}:utf-8") do |f|
         f.each_line do |line|
           unless body_start
             body_start = body_start?(line)
@@ -38,7 +39,7 @@ class FormatSubtitle
     end
 
     def body_start?(line)
-      line =~ /^19\r/   
+      line.strip =~ /^19$/   
     end
   end  
 end
