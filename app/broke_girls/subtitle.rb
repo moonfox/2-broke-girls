@@ -1,6 +1,9 @@
+require File.expand_path("../../../lib/subtitle_tool", __FILE__)
 module SubtitleExtract
   module BrokeGirls
     class Subtitle
+      include SubtileTool
+
       PREFIX = "broke_girls"
       ORIGINAL_PATH = File.expand_path("../../../tmp/original/#{PREFIX}" ,__FILE__)
       SUBTITLE_PATH = File.expand_path("../../../tmp/subtitle/#{PREFIX}" ,__FILE__)
@@ -32,10 +35,6 @@ module SubtitleExtract
         f_subtitle.close       
       end
 
-      def new_set(new_file, old_file)       
-        Dir.glob(new_file).map{|f|File.basename(f)} - Dir.glob(old_file).map{|f|File.basename(f)} 
-      end
-
       def line_void?(line)
         !line.include?(' --> ')
       end
@@ -46,15 +45,6 @@ module SubtitleExtract
 
       def body_start?(line)
         line.strip =~ /^19$/   
-      end
-
-      def not_utf8?(file)
-        f = File.open(file, "r")
-        f.gets
-        f.gets
-        byte = f.getbyte.to_s(2)
-        f.close
-        byte !~ /^0|^110|^1110|^11110|^111110|^1111110/
       end
     end 
   end    
