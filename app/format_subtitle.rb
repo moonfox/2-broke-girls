@@ -4,10 +4,6 @@ class FormatSubtitle
   SUBTITLE_PATH = File.expand_path("../../tmp/subtitle/#{PREFIX}/#{PREFIX}_" ,__FILE__)
 
   class << self
-    def txt_format
-
-    end
-
     def generate_subtitle
       # item = ARGV[0]
       item = ARGV[0] || "s01e11.txt"
