@@ -1,3 +1,5 @@
+require 'yaml'
+require 'mail'
 module SubtitleExtract
   module SubtileTool
     module ClassMethods
@@ -16,7 +18,34 @@ module SubtitleExtract
 
       def new_set(new_file, old_file)       
         Dir.glob(new_file).map{|f|File.basename(f)} - Dir.glob(old_file).map{|f|File.basename(f)} 
-      end   
+      end
+
+      def send_mail(subject, body, attachemnt = nil)
+        mail_config = YAML.load_file(File.expand_path("mail_config.yml", File.dirname(__FILE__)))
+        smtp = mail_config["smtp"]
+        mail_head = mail_config["mail"]
+        Mail.defaults do
+          delivery_method :smtp, {
+          :address              => smtp["address"],
+          :port                 => smtp["port"],
+          # :domain               =smtp
+          :user_name            => smtp["user_name"],
+          :password             => smtp["password"],
+          :authentication       => smtp["authentication"],
+          :enable_starttls_auto => smtp["enable_starttls_auto"] 
+          }
+        end
+
+        mail = Mail.new do
+          from    mail_head["from"]
+          to      mail_head["to"]
+          subject subject
+          body    body
+          add_file :filename => File.basename(attachemnt), :content => File.read(attachemnt)
+        end
+
+        mail.deliver
+      end  
     end
     
     def self.included(receiver)

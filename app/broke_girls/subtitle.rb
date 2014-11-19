@@ -7,13 +7,13 @@ module SubtitleExtract
       PREFIX = "broke_girls"
       ORIGINAL_PATH = File.expand_path("../../../tmp/original/#{PREFIX}" ,__FILE__)
       SUBTITLE_PATH = File.expand_path("../../../tmp/subtitle/#{PREFIX}" ,__FILE__)
-      START_LINENO = 30
+      START_LINENO = 31
       def generate
         new_file = "#{ORIGINAL_PATH}/*.txt"
         old_file = "#{SUBTITLE_PATH}/*.txt"
 
         new_set(new_file, old_file).each do |file_name|
-          create_file file_name    
+          create_file file_name
         end
       end
 
@@ -32,7 +32,10 @@ module SubtitleExtract
             f_subtitle.puts format_line(line) if line_void?(line)     
           end
         end 
-        f_subtitle.close       
+        f_subtitle.close
+        puts "geterate: #{f_subtitle.path}"
+        send_mail("broke_girls", "broke_girls", f_subtitle.path)
+        puts "mail: #{f_subtitle.path}"
       end
 
       def line_void?(line)

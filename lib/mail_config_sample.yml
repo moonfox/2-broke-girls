@@ -1,0 +1,11 @@
+smtp:
+  address: "your smtp address"
+  port: 25
+  user_name: "your email address"
+  password: "password"
+  authentication: "plain"
+  enable_starttls_auto: true
+
+mail:
+  from: ""
+  to: ""   
