@@ -7,7 +7,7 @@ module SubtitleExtract
       PREFIX = "broke_girls"
       ORIGINAL_PATH = File.expand_path("../../../tmp/original/#{PREFIX}" ,__FILE__)
       SUBTITLE_PATH = File.expand_path("../../../tmp/subtitle/#{PREFIX}" ,__FILE__)
-      START_LINENO = 31
+      START_LINENO = ARGV[0]
       def generate
         new_file = "#{ORIGINAL_PATH}/*.txt"
         old_file = "#{SUBTITLE_PATH}/*.txt"
